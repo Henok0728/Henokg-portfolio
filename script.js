@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (headline) {
         // Clear initial content to start typing
         headline.innerHTML = '';
-        const text1 = "Hello I am";
+        const text1 = "Hello I am,";
         const roles = [" Henok Gizaw"," Backend Engineer", " Embedded Systems Engineer"];
         let roleIndex = 0;
         
@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         
-        // Start typing after a short delay
         setTimeout(typeWriter, 500);
     }
 });
