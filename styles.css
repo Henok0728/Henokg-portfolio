@@ -1,17 +1,26 @@
 :root {
-    --bg-color: #050505; /* Pitch dark */
-    --surface-color: rgba(20, 20, 20, 0.7);
-    --surface-border: rgba(255, 255, 255, 0.08);
-    --text-primary: #ffffff;
-    --text-secondary: #a3a3a3;
-    --accent-color: #38bdf8; /* Neon blue */
-    --accent-glow: rgba(56, 189, 248, 0.4);
-    --accent-hover: #7dd3fc;
+    /* Pure Monochromatic Base */
+    --bg-color: #000000; /* Absolute pitch black */
+    --surface-color: rgba(15, 15, 15, 0.75); /* Deep charcoal surface */
+    --surface-border: rgba(255, 255, 255, 0.08); /* Subtle white border line */
+
+    --text-primary: #ffffff; /* Stark white */
+    --text-secondary: #888888; /* Mid-tone gray for balance */
+    --text-disabled: #444444; /* Dark gray for muted elements */
+
+    --accent-color: #ffffff; /* White is the new high-contrast accent */
+    --accent-glow: rgba(255, 255, 255, 0.15); /* Soft, elegant white mist instead of neon */
+    --accent-hover: #e5e5e5; /* Off-white / light gray for interactive states */
+
+
+    --gradient-text: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%); /* Premium metallic text gradient */
+    --gradient-surface: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%); /* Glossy glassmorphism */
+    --gradient-glow: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+
     --nav-height: 80px;
     --font-family: 'Inter', sans-serif;
     --transition-smooth: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
-
 * {
     margin: 0;
     padding: 0;
@@ -39,11 +48,32 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
+    /* Pure monochromatic ambient lighting */
     background: 
-        radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.15), transparent 25%);
-    filter: blur(60px);
-    animation: meshFlow 20s ease-in-out infinite alternate;
+        /* Soft, bright white spotlight from the top right */
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+        /* Deep, velvety dark-gray glow from the bottom left to add depth */
+        radial-gradient(circle at 15% 75%, rgba(255, 255, 255, 0.03) 0%, transparent 35%),
+        /* Base background color injection */
+        var(--bg-color);
+    filter: blur(80px); /* Slightly increased blur for an ultra-smooth silk effect */
+    animation: meshFlow 25s ease-in-out infinite alternate;
+}
+
+@keyframes meshFlow {
+    0% {
+        background-position: 0% 0%;
+        transform: scale(1);
+    }
+    50% {
+        /* Gently shifts the light source locations over time */
+        background-position: 10% -5%;
+        transform: scale(1.05); /* Subtle pulsing depth */
+    }
+    100% {
+        background-position: -5% 10%;
+        transform: scale(0.98);
+    }
 }
 
 @keyframes meshFlow {
@@ -71,7 +101,7 @@ h1, h2, h3 {
 }
 
 .accent-text {
-    background: linear-gradient(to right, #8b5cf6, var(--accent-color));
+    background:  var(--accent-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

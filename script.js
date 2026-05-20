@@ -84,8 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (headline) {
         // Clear initial content to start typing
         headline.innerHTML = '';
-        const text1 = "Hello I am,";
-        const roles = [" Henok Gizaw"," Backend Engineer", " Embedded Systems Engineer"];
+        const text1 = "Hi, I am ";
+        const roles = [" Backend Developer"," Embedded Systems Developer"];
         let roleIndex = 0;
         
         let i = 0;
