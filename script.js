@@ -1,12 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Scroll Progress Bar
-    const progressBar = document.querySelector(".scroll-progress");
-    window.addEventListener("scroll", () => {
-        const scrollTop = document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = (scrollTop / scrollHeight) * 100;
-        progressBar.style.width = scrollPercent + "%";
-    });
+    // Preloader Promise / Waiting Time
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Create a Promise that resolves after a 2-second waiting time
+        const waitingTime = new Promise(resolve => setTimeout(resolve, 2000));
+        
+        waitingTime.then(() => {
+            // Add fade-out class to trigger CSS transition
+            preloader.classList.add('fade-out');
+            
+            // Remove preloader from DOM after transition (600ms)
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 600);
+        });
+    }
 
     // Intersection Observer for Scroll Animations
     const observerOptions = {
@@ -193,5 +201,63 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         setTimeout(typeWriter, 500);
+    }
+
+    // Contact Form Submission Handling
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            // Give visual feedback
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formspreeEndpoint = "https://formspree.io/f/xykvppky";
+            
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch(formspreeEndpoint, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    submitBtn.textContent = 'Message Sent!';
+                    submitBtn.style.backgroundColor = '#10b981'; // Green success color
+                    submitBtn.style.color = '#fff';
+                    contactForm.reset();
+                } else {
+                    const data = await response.json();
+                    if (data.errors && data.errors.length > 0) {
+                        submitBtn.textContent = data.errors[0].message;
+                    } else if (formspreeEndpoint.includes('YOUR_FORMSPREE_ID')) {
+                        submitBtn.textContent = 'Setup Required';
+                        console.log("Please replace 'YOUR_FORMSPREE_ID' with your actual Formspree ID.");
+                    } else {
+                        submitBtn.textContent = 'Error Sending';
+                    }
+                    submitBtn.style.backgroundColor = '#f59e0b'; // Orange warning color
+                }
+            } catch (error) {
+                submitBtn.textContent = 'Network Error';
+                submitBtn.style.backgroundColor = '#ef4444'; // Red error color
+            }
+
+            // Reset button state after 3 seconds
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.style.backgroundColor = '';
+                submitBtn.style.color = '';
+                submitBtn.disabled = false;
+            }, 3000);
+        });
     }
 });
